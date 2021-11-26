@@ -3,6 +3,8 @@
         {
             "id": "1",
             "title" : "Quizz1",
+            "catgories": "maths",
+            "difficulté": "facile",
             "questions" : [
                 {
                     "id": "1",
@@ -24,21 +26,23 @@
         {
             "id": "2",
             "title" : "Quizz2",
+            "catgories": "geo",
+            "difficulté": "facile",
             "questions" : [
                 {
                     "id": "1",
-                    "question": "2+2",
-                    "reponse": "4"
+                    "question": "La capitale de la France ?",
+                    "reponse": "Paris"
                 }, 
                 {
                     "id": "2",
-                    "question": "3+3",
-                    "reponse": "6"
+                    "question": "La capitale de l'Espagne ?",
+                    "reponse": "Madrid"
                 }, 
                 {
                     "id": "3",
-                    "question": "4+4",
-                    "reponse": "8"
+                    "question": "La capitale de l'Allemagne ?",
+                    "reponse": "Berlin"
                 }
             ]
         }
