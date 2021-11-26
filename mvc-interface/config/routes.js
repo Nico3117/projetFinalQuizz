@@ -20,6 +20,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
+  //route test toDelete
+  '/test': {controller: 'QuizzController', action: 'test'},
 
 
   /***************************************************************************
