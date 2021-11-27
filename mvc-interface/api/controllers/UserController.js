@@ -10,20 +10,17 @@ module.exports = {
   connexion: async function (req, res) {
 
     var axios = require('axios');
+    var statusReq;
 
     const email = req.params.email;
     const password = req.params.password;
     var drapeau = false;
 
-    /*const retour = await axios.post('https://ipServiceUser/connexion', {
+    const retour = await axios.post('http://localhost:3000/user', {
       params: {
         email: email,
         password: password
 
-      },
-      body:{
-        email: email,
-        password: password
       }
     }).then(function (response) {
       console.log(response);
@@ -44,12 +41,10 @@ module.exports = {
         console.log(error);
       })
       .then(function (response) {
-      });*/
+      });
 
 
-
-
-    return res.view('user/connexion');
+    return res.view('quizz/question');
 
   },
 };
