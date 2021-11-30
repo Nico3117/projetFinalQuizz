@@ -4,7 +4,7 @@
             "id": "1",
             "title" : "Quizz1",
             "catgories": "maths",
-            "level": "facile",
+            "difficulté": "facile",
             "questions" : [
                 {
                     "id": "1",
@@ -27,7 +27,7 @@
             "id": "2",
             "title" : "Quizz2",
             "catgories": "geo",
-            "level": "facile",
+            "difficulté": "facile",
             "questions" : [
                 {
                     "id": "1",

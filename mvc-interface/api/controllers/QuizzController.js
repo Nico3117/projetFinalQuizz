@@ -10,8 +10,9 @@ module.exports = {
   test: async function (req, res) {
 
     console.log("toto");
-    return res.view('user/connexion');
+    return res.view('pages/homepage');
 
-  },
+  }
 
 };
+

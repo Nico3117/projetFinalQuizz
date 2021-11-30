@@ -19,13 +19,9 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'user/connexion' },
+  '/': { view: 'pages/homepage' },
   //route test toDelete
   '/test': {controller: 'QuizzController', action: 'test'},
-
-  '/connexion/:email/:password' : {controller: 'UserController' , action:'connexion'},
-
-
 
 
   /***************************************************************************
