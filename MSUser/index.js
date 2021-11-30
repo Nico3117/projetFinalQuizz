@@ -23,7 +23,7 @@ app.post('/login', async (req, res) => {
 
     pool.getConnection((err, connection) => {
         if(err) throw err;
-        connection.query('SELECT email, password from user', (err, results) => {
+        connection.query('SELECT email, password from users', (err, results) => {
             connection.release();
             if(err) throw err;
             results.forEach((f) => {
@@ -52,13 +52,12 @@ app.post('/login', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
     emailNewUser = req.query.email;
-    nameNewUser = req.query.name;
     passwordNewUser = req.query.password;
     res.status(200).send(); 
-    console.log(emailNewUser, nameNewUser, passwordNewUser)
+    console.log(emailNewUser, passwordNewUser)
     pool.getConnection((err, connection) => {
         if(err) throw err;
-        connection.query(`INSERT INTO user (pseudo, email, password) VALUES ('${nameNewUser}', '${emailNewUser}', ${passwordNewUser})`, (err, rows) => {
+        connection.query(`INSERT INTO users (email, password) VALUES ('${emailNewUser}', ${passwordNewUser})`, (err, rows) => {
             connection.release();
             if (!err) {
                 console.log('User ajouté !');
