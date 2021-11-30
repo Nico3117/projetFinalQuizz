@@ -14,29 +14,31 @@ const pool  = mysql.createPool({
     database        : 'dbusergame'
 });
 
-var emailUser;
-var passwordUser;
-
 let emailValid;
 
 app.post('/login', async (req, res) => {
     // Récupérer data user
-    emailUser = req.query.email;
-    passwordUser = req.query.password;
-    console.log(emailUser, passwordUser);
+    let emailUser = req.query.email;
+    let passwordUser = req.query.password;
 
     pool.getConnection((err, connection) => {
         if(err) throw err;
-        connection.query('SELECT * from users', (err, results) => {
+        connection.query('SELECT email, password from user', (err, results) => {
             connection.release();
             if(err) throw err;
             results.forEach((f) => {
-                if(f.email == emailUser && f.password == passwordUser) {
+                if(f.email == emailUser) {
                     emailValid = f.email;
+                    passwordValid = f.password;
                 }
             });
             if(emailValid == emailUser) {
-                console.log(`Le compte ${emailUser} existe`);
+                if(passwordUser != passwordValid) {
+                    console.log('Mot de passe incorrect !')
+                    res.status(403).send();
+                }else {
+                    console.log(`Le compte ${emailUser} existe`);
+                }
                 emailValid = '';
                 res.status(200).send();
             }else {
@@ -48,11 +50,42 @@ app.post('/login', async (req, res) => {
     });
 });
 
+app.post('/signup', async (req, res) => {
+    emailNewUser = req.query.email;
+    nameNewUser = req.query.name;
+    passwordNewUser = req.query.password;
+    res.status(200).send(); 
+    console.log(emailNewUser, nameNewUser, passwordNewUser)
+    pool.getConnection((err, connection) => {
+        if(err) throw err;
+        connection.query(`INSERT INTO user (pseudo, email, password) VALUES ('${nameNewUser}', '${emailNewUser}', ${passwordNewUser})`, (err, rows) => {
+            connection.release();
+            if (!err) {
+                console.log('User ajouté !');
+            } else {
+                console.log(err);
+            }
+        });
+    });
+});
+
 app.post('/score', async (req, res) => {
     scoreUser = req.body.score;
-    quizzName = req.body.quizz;
-    console.log(scoreUser, quizzName);
+    idQuizz = req.body.quizz;
+
     res.status(200).send();
+
+    pool.getConnection((err, connection) => {
+        if(err) throw err;
+        connection.query(`INSERT INTO score (score, id_quizz) VALUES (${scoreUser}, ${idQuizz})`, (err, rows) => {
+            connection.release();
+            if (!err) {
+                console.log('Score ajouté !');
+            } else {
+                console.log(err);
+            }
+        });
+    });
 });
 
 pool.on('connection', function () {
