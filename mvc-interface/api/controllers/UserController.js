@@ -9,6 +9,7 @@ module.exports = {
 
   connexion: async function (req, res) {
 
+    var receptionQuizzFromMs ;
     var axios = require('axios');
     var statusReq;
 
@@ -25,11 +26,61 @@ module.exports = {
     }).then(function (response) {
       console.log(response);
 
-        if (response.status === 200){
+        if (response.status === 200) {
 
           drapeau = true;
-
+          //get collection of quizzes
+          receptionQuizzFromMs = [
+            {
+              "id": "1",
+              "title" : "Quizz1",
+              "catgories": "maths",
+              "level": "facile",
+              "questions" : [
+                {
+                  "id": "1",
+                  "question": "2+2",
+                  "reponse": "4"
+                },
+                {
+                  "id": "2",
+                  "question": "3+3",
+                  "reponse": "6"
+                },
+                {
+                  "id": "3",
+                  "question": "4+4",
+                  "reponse": "8"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "title" : "Quizz2",
+              "catgories": "geo",
+              "level": "facile",
+              "questions" : [
+                {
+                  "id": "1",
+                  "question": "La capitale de la France ?",
+                  "reponse": "Paris"
+                },
+                {
+                  "id": "2",
+                  "question": "La capitale de l'Espagne ?",
+                  "reponse": "Madrid"
+                },
+                {
+                  "id": "3",
+                  "question": "La capitale de l'Allemagne ?",
+                  "reponse": "Berlin"
+                }
+              ]
+            }
+          ];
         }
+
+
 
         else if (response > 299){
 
@@ -44,7 +95,7 @@ module.exports = {
       });
 
 
-    return res.view('quizz/question');
+    return res.view('quizz/filtre' , {arrayOfQuizz : receptionQuizzFromMs});
 
   },
 };
