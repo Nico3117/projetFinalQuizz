@@ -1,8 +1,7 @@
-// const fs = require('fs');
-// const axios = require('axios');
-
+const axios = require('axios');
 const express = require('express');
-const bodyparser = require('body-parser')
+const bodyparser = require('body-parser');
+const quizz = require('./quizz-config.json');
 
 const app = express();
 app.use(bodyparser.json())
@@ -10,23 +9,27 @@ app.use(bodyparser.json())
 const port = 3001;
 
 let scoreUser;
+let nameQuizz;
 
-app.post('/quizz', async (req, res) => {
+// console.log(quizz);
+
+app.post('/score', async (req, res) => {
     // Récuperer data user
     scoreUser = req.query.score;
+    nameQuizz = req.query.name; 
     res.status(200).send();
+console.log(scoreUser, nameQuizz)
+    try {
+        const res = await axios.post('http://localhost:3000/score', {
+            score: scoreUser,
+            quizz: nameQuizz
+        });
+    } catch (err) {
+        console.error(err);
+    }
 });
-
 
 app.listen(port, () => {
     console.log(`Service listening at http://localhost:${port}`)
 })
-
-// const quizz = 'quizz-config.json';
-
-// let data = JSON.parse(fs.readFileSync(quizz));
-
-// data.Quizz.forEach((q) => {
-//     console.log(q);
-// });
 

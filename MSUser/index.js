@@ -17,27 +17,46 @@ const pool  = mysql.createPool({
 var emailUser;
 var passwordUser;
 
-app.post('/user', async (req, res) => {
+let emailValid;
+
+app.post('/login', async (req, res) => {
     // Récupérer data user
     emailUser = req.query.email;
     passwordUser = req.query.password;
-    res.status(200).send();
     console.log(emailUser, passwordUser);
+
+    pool.getConnection((err, connection) => {
+        if(err) throw err;
+        connection.query('SELECT * from users', (err, results) => {
+            connection.release();
+            if(err) throw err;
+            results.forEach((f) => {
+                if(f.email == emailUser && f.password == passwordUser) {
+                    emailValid = f.email;
+                }
+            });
+            if(emailValid == emailUser) {
+                console.log(`Le compte ${emailUser} existe`);
+                emailValid = '';
+                res.status(200).send();
+            }else {
+                console.log(`Le compte ${emailUser} n'existe pas`);
+                emailValid = '';
+                res.status(403).send();
+            }
+        });
+    });
 });
 
-console.log('2', emailUser, passwordUser);
+app.post('/score', async (req, res) => {
+    scoreUser = req.body.score;
+    quizzName = req.body.quizz;
+    console.log(scoreUser, quizzName);
+    res.status(200).send();
+});
 
 pool.on('connection', function () {
-  console.log("Connected");
-});
-
-pool.getConnection((err, connection) => {
-  if(err) throw err;
-  connection.query('SELECT * from users', (err, fields) => {
-      connection.release();
-      if(err) throw err;
-      console.log(fields);
-  });
+    console.log("Connected");
 });
 
 app.listen(port, () => {
